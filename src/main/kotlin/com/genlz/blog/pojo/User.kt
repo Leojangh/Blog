@@ -1,8 +1,11 @@
 package com.genlz.blog.pojo
 
-import com.genlz.blog.persistance.Persistent
+import com.genlz.blog.persistance.Persistable
 import com.genlz.blog.persistance.TimeAware
 import com.genlz.blog.persistance.TimeFieldDelegate
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
 import kotlinx.serialization.Serializable
 import java.time.Instant
 
@@ -20,7 +23,7 @@ sealed interface Guest : User {
     }
 }
 
-sealed interface AuthorizedUser : User, Persistent<Long, Instant> {
+sealed interface AuthorizedUser : User, Persistable<Long, Instant> {
     override val id: Long
     val registerTime: Instant
 
@@ -96,7 +99,9 @@ private data class AuthorizedUserImpl(
     override val registerTime by ::createTime
 }
 
+//@Entity
 private data class AdministratorImpl(
+//    @Id @GeneratedValue
     override val id: Long,
     override val username: Username,
     override val email: Email,

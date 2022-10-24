@@ -1,12 +1,13 @@
 package com.genlz.blog.persistance
 
+import java.io.Serializable
 import java.time.Instant
 
-interface Persistent<Key, Time> : TimeAware<Time> {
+interface Persistable<Key : Serializable, Time : Serializable> : TimeAware<Time> {
     val id: Key
 }
 
-interface TimeAware<Time> {
+interface TimeAware<Time : Serializable> {
     val createTime: Time
     val modifyTime: MutableList<Time>
 }
