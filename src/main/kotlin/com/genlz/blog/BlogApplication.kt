@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
 @RestController
 class TestController {
 
-    @GetMapping("/test")
+    @GetMapping("/")
     fun test(): String {
         return "Hello!"
     }

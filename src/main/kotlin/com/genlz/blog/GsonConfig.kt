@@ -7,6 +7,7 @@ import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
@@ -37,10 +38,11 @@ class GsonConfig {
     @Bean
     fun customGson(
         builder: GsonBuilder,
-        gsonTypeAdapters: Collection<*>
+        @Qualifier("gsonAdapters")
+        gsonAdapters: Collection<*>
     ): Gson = builder.apply {
         setExclusionStrategies(ExcludeStrategy)
-        for (typeAdapter in gsonTypeAdapters) typeAdapter?.let {
+        for (typeAdapter in gsonAdapters) typeAdapter?.let {
             val superclass = with(it.javaClass.genericSuperclass) {
                 //TypeAdapter
                 if (this is ParameterizedType) this
@@ -55,7 +57,8 @@ class GsonConfig {
         setPrettyPrinting()//for debugging
     }.create()
 
-    @Bean(name = ["gsonTypeAdapters"])
+    @Bean
+    @Qualifier("gsonAdapters")
     fun provideGsonTypeAdapters(
         context: ApplicationContext
     ): Collection<*> = context.getBeansWithAnnotation(GsonAdapter::class.java).values

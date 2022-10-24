@@ -1,16 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.0.0-SNAPSHOT"
-    id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.spring") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
+    id("org.springframework.boot") version SPRING_BOOT
+    id("io.spring.dependency-management") version SPRING_DEPENDENCY_MANAGEMENT
+    kotlin("jvm") version KOTLIN
+    kotlin("plugin.spring") version KOTLIN
+    kotlin("plugin.jpa") version KOTLIN
+    kotlin("plugin.serialization") version KOTLIN
 }
 
 group = "com.genlz"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+
+java {
+    targetCompatibility = JAVA
+    sourceCompatibility = JAVA
+}
 
 repositories {
     mavenCentral()
@@ -19,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
     implementation("com.google.code.gson:gson")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation(kotlin("reflect"))
@@ -32,7 +37,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = JAVA.majorVersion
     }
 }
 
