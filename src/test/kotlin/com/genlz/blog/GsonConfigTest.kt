@@ -15,6 +15,7 @@ internal class GsonConfigTest(
 
     @Test
     fun provideGsonTypeAdapters() {
+
         println(gsonAdapters)
         assert(gsonAdapters.isNotEmpty())
     }
